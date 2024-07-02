@@ -22,8 +22,9 @@ public class Main {
 //            int weight = Integer.parseInt(lines[2]);
 //            graph.addEdge(source - 1, dest - 1, weight);
 //       }
-            launch(args);
-            ProgramController.Run();
+//            launch(args);
+        ProgramController programController=new ProgramController();
+        programController.Run();
     }
 
 

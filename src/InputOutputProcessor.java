@@ -9,6 +9,34 @@ public class InputOutputProcessor {
 
     }
     boolean printer(CheckResult a) {
+        if(a == CheckResult.EMPTY_FIELD) {
+
+            System.out.println("Empty Field!");
+            return true;
+        }
+        if(a == CheckResult.INVALID_USERNAME) {
+
+            System.out.println("Invalid Username!");
+            return true;
+        }
+        if(a == CheckResult.ALREADY_LOGGED_IN) {
+
+            System.out.println("Someone has already logged in!");
+            return true;
+        }
+        if(a == CheckResult.SECURITY_QUESTION) {
+
+            System.out.println("User created successfully. Please choose a security question: ( choose it with: question pick -q <QuestionNumber> -a <Answer> -c <AnswerConfirm> )");
+            System.out.println("1-What is your father's name?");
+            System.out.println("2-What is your favorite color?");
+            System.out.println("3-What was the name of your first pet?");
+            return true;
+        }
+        if(a == CheckResult.INVALID_RESPONSE) {
+
+            System.out.println("Invalid Response! Try Again!");
+            return true;
+        }
         if(a == CheckResult.SUCCESSFUL) {
             System.out.println("Successful!");
             return true;

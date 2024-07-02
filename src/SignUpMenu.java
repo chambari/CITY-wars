@@ -1,10 +1,30 @@
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SignUpMenu {
+public class SignUpMenu extends Menu{
+    public boolean createUser(String username, String password, String email, String nickname) {
+        //bayad az file shamel user ha ham in mavared check shavad!!!
+        if (username.isEmpty() || password.isEmpty()|| email.isEmpty() || nickname.isEmpty()){
+            inputOutput.printer(CheckResult.EMPTY_FIELD);
+            return false;
+        }
+        if (isUsernameTaken(username) && !isValidUsername(username)) {
+            inputOutput.printer(CheckResult.INVALID_USERNAME);
+            return false;
+        }
 
-    private Matcher getCommandMatcher(String input, String regex) {
-        Pattern pattern = Pattern.compile(regex);
-        return pattern.matcher(input);
+        if (!isValidPassword(password)) {
+            System.out.println("Password is too weak. It must be at least 8 characters long and contain a mix of uppercase, lowercase, and numbers.");
+            return false;
+        }
+
+        if (!isValidEmail(email)) {
+            System.out.println("Invalid email format.");
+            return false;
+        }
+
+        User user = new User(username, password, email, nickname);
+        return true;
     }
+
 }
