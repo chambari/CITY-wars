@@ -46,5 +46,15 @@ public class Menu {
      boolean isValidEmail(String email) {
         return email.matches("\\S+@\\S+\\.com");
     }
+    public void captcha(){
+        String captcha = AsciiArtCaptcha.generateCaptcha();
+        String input=Main.scanner.nextLine();
+        if(!input.equals(captcha)){
+            inputOutput.printer(CheckResult.INVALID_RESPONSE);
+            captcha();
+        }
+        inputOutput.printer(CheckResult.SUCCESSFUL);
+
+    }
 
 }

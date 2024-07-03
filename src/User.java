@@ -31,6 +31,14 @@ public class User {
             Level++;
         }
     }
+    public static User returnUserByUsername(String username){
+        for (User user : users){
+            if (user.getUsername().equals(username)){
+                return user;
+            }
+        }
+        return null;
+    }
     private void addUser(User user){
         users.add(user);
     }

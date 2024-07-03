@@ -5,6 +5,8 @@ import java.util.regex.Pattern;
 
 public class ProgramController  {
     SignUpMenu signUp=new SignUpMenu();
+    LoginMenu loginMenu=new LoginMenu();
+    ProfileMenu profileMenu=new ProfileMenu();
     public static InputOutputProcessor inputOutput = InputOutputProcessor.getInstance();
     public  void Run() {
         boolean running=true;
@@ -29,6 +31,7 @@ public class ProgramController  {
                 }
                 signUp.createUser(matcher.group("username"), matcher.group("password"), matcher.group("Email"), matcher.group("Nickname"));
                 securityQuestion();
+                captcha();
             }
         } else if (Command.matches("user create -u (?<Username>\\S+) -p random -email (?<Email>\\S+) -n (?<Nickname>.+)")) {
             if (User.loggedInUser != null)
@@ -39,8 +42,69 @@ public class ProgramController  {
                     inputOutput.printer(CheckResult.EMPTY_FIELD);
                     return;
                 }
+                String password=generateRandomPassword();
+                passwordConformation(password);
+                signUp.createUser(matcher.group("username"), password, matcher.group("Email"), matcher.group("Nickname"));
+                securityQuestion();
+                captcha();
 
+            }
+        }else if(Command.matches("user login -u (\\S+) -p (\\S+)")){
+            if (User.loggedInUser != null)
+                inputOutput.printer(CheckResult.ALREADY_LOGGED_IN);
+            else {
+                Matcher matcher = getCommandMatcher(Command, "user login -u (\\S+) -p (\\S+)");
+                loginMenu.userLogin(matcher.group("Username"), matcher.group("password"));
+            }
+        }else if(Command.matches("Forgot my password -u (\\S+)")){
+            if (User.loggedInUser != null)
+                inputOutput.printer(CheckResult.ALREADY_LOGGED_IN);
+            else {
+                Matcher matcher = getCommandMatcher(Command, "Forgot my password -u (\\S+)");
+                loginMenu.forgetPassword(matcher.group("Username"));
+            }
+        }else if(Command.matches("log out")){
+            if (User.loggedInUser == null)
+                inputOutput.printer(CheckResult.INVALID_COMMAND);
+            else {
+                User.loggedInUser = null;
+                inputOutput.printer(CheckResult.SUCCESSFUL);
+            }
+        }else if(Command.matches("Show information")) {
+            if (User.loggedInUser == null)
+                inputOutput.printer(CheckResult.INVALID_COMMAND);
+            else{
+                profileMenu.showInfo();
+            }
+        }else if(Command.matches("Profile change -u (?<Username>\\S+)")) {
+            if (User.loggedInUser == null)
+                inputOutput.printer(CheckResult.INVALID_COMMAND);
+            else {
+                Matcher matcher = getCommandMatcher(Command, "Profile change -u (?<Username>\\S+)");
+                profileMenu.changeUsername(matcher.group("Username"));
+            }
+        }else if(Command.matches("Profile change -n (?<Nickname>.+)")) {
+            if (User.loggedInUser == null)
+                inputOutput.printer(CheckResult.INVALID_COMMAND);
+            else {
+                Matcher matcher = getCommandMatcher(Command, "Profile change -n (?<Nickname>.+)");
+                profileMenu.changeNickname(matcher.group("Nickname"));
 
+            }
+        }else if(Command.matches("profile change password -o (?<OldPass>\\S+) -n (?<NewPass>\\S+)")){
+            if (User.loggedInUser == null)
+                inputOutput.printer(CheckResult.INVALID_COMMAND);
+            else {
+                Matcher matcher = getCommandMatcher(Command, "profile change password -o (?<OldPass>\\S+) -n (?<NewPass>\\S+)");
+                profileMenu.changePassword(matcher.group("OldPass"), matcher.group("NewPass"));
+
+            }
+        }else if(Command.matches("profile change -e (?<Email>\\S+)")){
+            if (User.loggedInUser == null)
+                inputOutput.printer(CheckResult.INVALID_COMMAND);
+            else {
+                Matcher matcher = getCommandMatcher(Command, "profile change -e (?<Email>\\S+)");
+                profileMenu.changeEmail(matcher.group("Email"));
 
             }
         }
@@ -95,6 +159,24 @@ public class ProgramController  {
         }
 
         return password.toString();
+    }
+    public void passwordConformation(String password){
+        inputOutput.printer(CheckResult.PASSWORD_CONFIRMATION, password);
+        String newPassword = Main.scanner.nextLine();
+        if(!newPassword.equals(password)){
+            inputOutput.printer(CheckResult.INVALID_RESPONSE);
+            passwordConformation(password);
+        }
+    }
+    public void captcha(){
+        String captcha = AsciiArtCaptcha.generateCaptcha();
+        String input=Main.scanner.nextLine();
+        if(!input.equals(captcha)){
+            inputOutput.printer(CheckResult.INVALID_RESPONSE);
+            captcha();
+        }
+        inputOutput.printer(CheckResult.SUCCESSFUL);
+
     }
 
 

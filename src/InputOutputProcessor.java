@@ -21,7 +21,7 @@ public class InputOutputProcessor {
         }
         if(a == CheckResult.ALREADY_LOGGED_IN) {
 
-            System.out.println("Someone has already logged in!");
+            System.out.println("Somebody has already logged in!");
             return true;
         }
         if(a == CheckResult.SECURITY_QUESTION) {
@@ -41,12 +41,37 @@ public class InputOutputProcessor {
             System.out.println("Successful!");
             return true;
         }
-        if(a == CheckResult.COST_ERROR) {
-            System.out.println("Invalid Cost!");
+        if(a == CheckResult.USERNAME_DOESNT_EXIST) {
+            System.out.println("Username doesnt exist!");
             return true;
         }
-        if(a == CheckResult.ID_ERROR) {
-            System.out.println("Invalid id!");
+        if(a == CheckResult.SUCCESSFUL_LOGIN) {
+            System.out.println("user logged in successfully!");
+            return true;
+        }
+        if(a == CheckResult.NEW_PASSWORD) {
+            System.out.println("Enter your new password: ");
+            return true;
+        }
+        if(a == CheckResult.WEAK_PASSWORD) {
+            System.out.println("Password is too weak. It must be at least 8 characters long and contain a mix of uppercase, lowercase, and numbers.");
+            return true;
+        }
+        if(a == CheckResult.CURRENT_PASSWORD_INCORRECT) {
+            System.out.println("Current password is incorrect!");
+            return true;
+        }
+        if(a == CheckResult.NEED_NEW_PASSWORD) {
+            System.out.println("Please enter a new password!");
+            return true;
+        }
+        if(a == CheckResult.PASSWORD_CHANGED_SUCCESSFULLY) {
+            System.out.println("Password changed successfully!");
+            return true;
+        }
+        if(a == CheckResult.INVALID_EMAIL) {
+
+            System.out.println("Invalid Email!");
             return true;
         }
         if(a == CheckResult.INVALID_COMMAND) {
@@ -54,27 +79,39 @@ public class InputOutputProcessor {
             System.out.println("Invalid Command!");
             return true;
         }
-        if(a == CheckResult.NOT_ENOUGH_CREDIT) {
 
-            System.out.println("Low Credit!");
+
+        return false;
+    }
+    boolean printer(CheckResult a,String massage) {
+        if (a == CheckResult.PASSWORD_CONFIRMATION) {
+
+            System.out.println("Your random password is: " + massage);
+            System.out.println("Please enter your password: ");
             return true;
         }
-        if(a == CheckResult.PASSWORD_ERROR) {
+        if (a == CheckResult.WRONG_PASSWORD) {
 
-
-            System.out.println("Invalid Password!");
+            System.out.println("Password and Username don’t match!");
+            System.out.println("Try again in " + massage + " seconds ");
             return true;
         }
-        if(a == CheckResult.INVALID_PERCENT) {
+        if (a == CheckResult.SECONDS_TRY_AGAIN) {
 
-            System.out.println("Invalid Percent");
+            System.out.println("Try again in " + massage + " seconds ");
             return true;
         }
-        if(a == CheckResult.USER_NAME_ERROR) {
+        if (a == CheckResult.SHOW_USER_INFORMATION) {
 
-            System.out.println("Invalid Username!");
+            String[] info=massage.split(",");
+            System.out.println("Username: " + info[0]);
+            System.out.println("Nickname: " + info[1]);
+            System.out.println("Password: " +info[2]);
+            System.out.println("Email: " + info[3]);
             return true;
         }
+
+
         return false;
     }
     public static InputOutputProcessor getInstance() {

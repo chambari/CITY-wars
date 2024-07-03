@@ -14,12 +14,12 @@ public class SignUpMenu extends Menu{
         }
 
         if (!isValidPassword(password)) {
-            System.out.println("Password is too weak. It must be at least 8 characters long and contain a mix of uppercase, lowercase, and numbers.");
+            inputOutput.printer(CheckResult.WEAK_PASSWORD);
             return false;
         }
 
         if (!isValidEmail(email)) {
-            System.out.println("Invalid email format.");
+            inputOutput.printer(CheckResult.INVALID_EMAIL);
             return false;
         }
 
