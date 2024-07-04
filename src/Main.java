@@ -3,12 +3,11 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Main {
-
     public static Scanner scanner = new Scanner(System.in);
     public static InputOutputProcessor inputOutput = InputOutputProcessor.getInstance();
-
     public static void main(String[] args) throws FileNotFoundException {
-//            Server.readDataFromServer();
+       Server.readDataFromServer();
+
 
 //        File file = new File("graph.txt");
 //        Scanner raeder = new Scanner(file);
@@ -27,8 +26,9 @@ public class Main {
         ProgramController programController=new ProgramController();
         inputOutput.printer(CheckResult.ALL_COMMANDS);
         programController.Run();
-    }
+        Server.writeDataToServer();
 
+    }
 
 }
 

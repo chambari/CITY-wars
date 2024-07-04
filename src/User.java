@@ -39,6 +39,9 @@ public class User {
         }
         return null;
     }
+    public String toFileFormat() {
+        return (Username + "," + Password+"," + Nickname +"," + Email+"," +PassWordRecoveryAnswer+"," +PasswordRecoveryQuestionNumber);
+    }
     private void addUser(User user){
         users.add(user);
     }

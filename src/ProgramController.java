@@ -8,8 +8,9 @@ public class ProgramController  {
     LoginMenu loginMenu=new LoginMenu();
     ProfileMenu profileMenu=new ProfileMenu();
     public static InputOutputProcessor inputOutput = InputOutputProcessor.getInstance();
+    public boolean running=true;
     public  void Run() {
-        boolean running=true;
+//        boolean running=true;
         while (running) {
             String Command = Main.scanner.nextLine();
             CheckCommands(Command);
@@ -104,6 +105,8 @@ public class ProgramController  {
                 profileMenu.changeEmail(matcher.group("Email"));
 
             }
+        }else if(Command.matches("Exit")){
+            running=false;
         }
 
 

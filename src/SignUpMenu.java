@@ -8,7 +8,7 @@ public class SignUpMenu extends Menu{
             inputOutput.printer(CheckResult.EMPTY_FIELD);
             return false;
         }
-        if (isUsernameTaken(username) && !isValidUsername(username)) {
+        if (isUsernameTaken(username) || !isValidUsername(username)) {
             inputOutput.printer(CheckResult.INVALID_USERNAME);
             return false;
         }
