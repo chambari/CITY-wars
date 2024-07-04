@@ -1,5 +1,6 @@
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Scanner;
 
 public class LoginMenu extends Menu {
     private int failedAttempts = 0;
@@ -18,7 +19,7 @@ public class LoginMenu extends Menu {
         inputOutput.printer(CheckResult.WRONG_PASSWORD,calculateRemainingTime()+"");
         failedAttempts++;
         lastFailedAttempt = LocalDateTime.now();
-        check(password);
+        check(user.getPassword());
         inputOutput.printer(CheckResult.SUCCESSFUL_LOGIN);
         User.loggedInUser=user;
 
@@ -35,21 +36,53 @@ public class LoginMenu extends Menu {
         return Math.max(remainingTime, 0);
     }
     private void check(String password){
-        if(calculateRemainingTime()>0 && Main.scanner.hasNext()){
-            inputOutput.printer(CheckResult.SECONDS_TRY_AGAIN,calculateRemainingTime()+"");
-
+        if(calculateRemainingTime()==0 && Main.scanner.hasNext() && Main.scanner.nextLine().equals(password)){
+            lastFailedAttempt=null;
+            return;
         }
-        if(calculateRemainingTime()==0 && Main.scanner.hasNext()){
-            if(!Main.scanner.nextLine().equals(password)){
+        else if(calculateRemainingTime()>0 && Main.scanner.hasNext()){
+            inputOutput.printer(CheckResult.SECONDS_TRY_AGAIN,calculateRemainingTime()+"");
+            Main.scanner.nextLine();
+            check(password);
+        }
+        else if(calculateRemainingTime()==0 && Main.scanner.hasNext()){
+            String input=Main.scanner.nextLine();
+            if(!input.equals(password)){
                 inputOutput.printer(CheckResult.WRONG_PASSWORD,calculateRemainingTime()+"");
                 failedAttempts++;
                 lastFailedAttempt = LocalDateTime.now();
-            }else{
+                check(password);
+            }else {
+                lastFailedAttempt=null;
                 return;
             }
         }
-        check(password);
+
     }
+//    private void check(String password) {
+//        Scanner scanner = Main.scanner;
+//        System.out.println(password);
+//        while (true) {
+//            int remainingTime = calculateRemainingTime();
+//            if (remainingTime > 0) {
+//                inputOutput.printer(CheckResult.SECONDS_TRY_AGAIN, remainingTime + "");
+//                scanner.nextLine(); // consume the input to proceed
+//                continue; // recheck remaining time after consuming input
+//            }
+//            if (remainingTime == 0) {
+//                String input = scanner.nextLine();
+//                if (!input.equals(password)) {
+//                    inputOutput.printer(CheckResult.WRONG_PASSWORD, calculateRemainingTime() + "");
+//                    failedAttempts++;
+//                    lastFailedAttempt = LocalDateTime.now();
+//                } else {
+//                    inputOutput.printer(CheckResult.SUCCESSFUL_LOGIN);
+//                    lastFailedAttempt = null;
+//                    return; // Successful login, exit the method
+//                }
+//            }
+//        }
+//    }
 
 
     public void forgetPassword(String username){
@@ -58,7 +91,7 @@ public class LoginMenu extends Menu {
             inputOutput.printer(CheckResult.USERNAME_DOESNT_EXIST);
             return;
         }
-        inputOutput.printer(CheckResult.SECURITY_QUESTION);
+        inputOutput.printer(CheckResult.FORGET_PASSWORD_QUESTION);
         String answer = Main.scanner.nextLine();
         if(!answer.equals(user.getPassWordRecoveryAnswer())){
             inputOutput.printer(CheckResult.INVALID_RESPONSE);
@@ -66,6 +99,10 @@ public class LoginMenu extends Menu {
         }else {
             inputOutput.printer(CheckResult.NEW_PASSWORD);
             String newPassword = Main.scanner.nextLine();
+            if(!isValidPassword(newPassword)){
+                inputOutput.printer(CheckResult.WEAK_PASSWORD);
+                return;
+            }
             user.setPassword(newPassword);
             inputOutput.printer(CheckResult.SUCCESSFUL);
         }

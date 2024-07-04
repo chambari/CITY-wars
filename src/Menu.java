@@ -4,8 +4,10 @@ import java.util.regex.Pattern;
 public class Menu {
     public static InputOutputProcessor inputOutput = InputOutputProcessor.getInstance();
      Matcher getCommandMatcher(String input, String regex) {
-        Pattern pattern = Pattern.compile(regex);
-        return pattern.matcher(input);
+         Pattern pattern = Pattern.compile(regex);
+         Matcher matcher = pattern.matcher(input);
+         matcher.find();
+         return matcher;
     }
 
 
@@ -52,8 +54,34 @@ public class Menu {
         if(!input.equals(captcha)){
             inputOutput.printer(CheckResult.INVALID_RESPONSE);
             captcha();
+        }else {
+            inputOutput.printer(CheckResult.SUCCESSFUL);
         }
-        inputOutput.printer(CheckResult.SUCCESSFUL);
+
+    }
+    public void securityQuestion(){
+        inputOutput.printer(CheckResult.SECURITY_QUESTION);
+        String nextCommand=Main.scanner.nextLine();
+        if (!nextCommand.matches("question pick -q (?<QuestionNumber>\\d) -a (?<Answer>\\S+) -c (?<AnswerConfirm>\\S+)")){
+            securityQuestion();
+        }
+        Matcher matcher=getCommandMatcher(nextCommand,"question pick -q (?<QuestionNumber>\\d) -a (?<Answer>\\S+) -c (?<AnswerConfirm>\\S+)");
+        if (matcher.group("QuestionNumber").isEmpty() || matcher.group("Answer").isEmpty()||matcher.group("AnswerConfirm").isEmpty()){
+            inputOutput.printer(CheckResult.EMPTY_FIELD);
+            securityQuestion();
+        }
+        if(!matcher.group("Answer").equals(matcher.group("AnswerConfirm"))){
+            inputOutput.printer(CheckResult.INVALID_RESPONSE);
+            securityQuestion();
+        }
+        try {
+            int a=Integer.parseInt(matcher.group("QuestionNumber"));
+        }catch (NumberFormatException E){
+            inputOutput.printer(CheckResult.INVALID_RESPONSE);
+            securityQuestion();
+        }
+        User.loggedInUser.setPasswordRecoveryQuestionNumber(Integer.parseInt(matcher.group("QuestionNumber")));
+        User.loggedInUser.setPassWordRecoveryAnswer(matcher.group("Answer"));
 
     }
 

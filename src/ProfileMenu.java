@@ -2,8 +2,8 @@ public class ProfileMenu extends Menu {
     public void showInfo(){
         User user=User.loggedInUser;
         String info =   user.getUsername() + "," +
-                        user.getNickname() + "," +
                         user.getPassword() + "," +
+                        user.getNickname() + "," +
                         user.getEmail();
         inputOutput.printer(CheckResult.SHOW_USER_INFORMATION, info);
     }

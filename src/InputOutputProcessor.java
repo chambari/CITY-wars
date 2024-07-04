@@ -9,6 +9,26 @@ public class InputOutputProcessor {
 
     }
     boolean printer(CheckResult a) {
+        if(a == CheckResult.ALL_COMMANDS) {
+
+            System.out.println("Welcome to City Wars. Please write your commands in the suggested ways.");
+            System.out.println("----------------------------------------------------------------");
+            System.out.println("-creating user : user create -u <Username> -p <Password> <PasswordConfirmation> -email <Email> -n <Nickname>");
+            System.out.println("-creating user with random password: user create -u <Username> -p random -email <Email> -n <Nickname>");
+            System.out.println("-logging in: user login -u <Username> -p <Password>");
+            System.out.println("-if you forgot your pass: Forgot my password -u <Username>");
+            System.out.println("-changing username: Profile change -u <Username>");
+            System.out.println("-changing nickname: Profile change -n <Nickname>");
+            System.out.println("-changing email: profile change -e <Email>");
+            System.out.println("-changing pass: profile change password -o <OldPass> -n <NewPass>");
+            System.out.println("-log out");
+            System.out.println("-Show information");
+            System.out.println("-Show cards");
+            System.out.println("-Start Game ");
+            System.out.println("-Show game history");
+            System.out.println("-login admin pass  1-Card edit         2-add card     3-Card delete   4-Show players ");
+            return true;
+        }
         if(a == CheckResult.EMPTY_FIELD) {
 
             System.out.println("Empty Field!");
@@ -47,6 +67,13 @@ public class InputOutputProcessor {
         }
         if(a == CheckResult.SUCCESSFUL_LOGIN) {
             System.out.println("user logged in successfully!");
+            return true;
+        }
+        if(a == CheckResult.FORGET_PASSWORD_QUESTION) {
+            System.out.println("Write your answer:");
+            System.out.println("1-What is your father's name?");
+            System.out.println("2-What is your favorite color?");
+            System.out.println("3-What was the name of your first pet?");
             return true;
         }
         if(a == CheckResult.NEW_PASSWORD) {

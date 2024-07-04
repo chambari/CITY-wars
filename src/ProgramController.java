@@ -17,7 +17,9 @@ public class ProgramController  {
     }
     public  Matcher getCommandMatcher(String input, String regex) {
         Pattern pattern = Pattern.compile(regex);
-        return pattern.matcher(input);
+        Matcher matcher = pattern.matcher(input);
+        matcher.find();
+        return matcher;
     }
     public  void CheckCommands(String Command) {
         if (Command.matches("user create -u (?<Username>\\S+) -p (?<Password>\\S+) (?<PasswordConfirmation>\\S+) -email (?<Email>\\S+) -n (?<Nickname>.+)")) {
@@ -25,42 +27,37 @@ public class ProgramController  {
                 inputOutput.printer(CheckResult.ALREADY_LOGGED_IN);
             else {
                 Matcher matcher = getCommandMatcher(Command, "user create -u (?<Username>\\S+) -p (?<Password>\\S+) (?<PasswordConfirmation>\\S+) -email (?<Email>\\S+) -n (?<Nickname>.+)");
-                if(matcher.group("username").isEmpty()|| matcher.group("password").isEmpty()|| matcher.group("Email").isEmpty()|| matcher.group("Nickname").isEmpty()){
+                if(matcher.group("Username").isEmpty()|| matcher.group("Password").isEmpty()|| matcher.group("Email").isEmpty()|| matcher.group("Nickname").isEmpty()){
                     inputOutput.printer(CheckResult.EMPTY_FIELD);
                     return;
                 }
-                signUp.createUser(matcher.group("username"), matcher.group("password"), matcher.group("Email"), matcher.group("Nickname"));
-                securityQuestion();
-                captcha();
+                signUp.createUser(matcher.group("Username"), matcher.group("Password"), matcher.group("Email"), matcher.group("Nickname"));
             }
         } else if (Command.matches("user create -u (?<Username>\\S+) -p random -email (?<Email>\\S+) -n (?<Nickname>.+)")) {
             if (User.loggedInUser != null)
                 inputOutput.printer(CheckResult.ALREADY_LOGGED_IN);
             else {
                 Matcher matcher = getCommandMatcher(Command, "user create -u (?<Username>\\S+) -p random -email (?<Email>\\S+) -n (?<Nickname>.+)");
-                if(matcher.group("username").isEmpty()|| matcher.group("Email").isEmpty()|| matcher.group("Nickname").isEmpty()){
+                if(matcher.group("Username").isEmpty()|| matcher.group("Email").isEmpty()|| matcher.group("Nickname").isEmpty()){
                     inputOutput.printer(CheckResult.EMPTY_FIELD);
                     return;
                 }
                 String password=generateRandomPassword();
                 passwordConformation(password);
-                signUp.createUser(matcher.group("username"), password, matcher.group("Email"), matcher.group("Nickname"));
-                securityQuestion();
-                captcha();
-
+                signUp.createUser(matcher.group("Username"), password, matcher.group("Email"), matcher.group("Nickname"));
             }
-        }else if(Command.matches("user login -u (\\S+) -p (\\S+)")){
+        }else if(Command.matches("user login -u (?<Username>\\S+) -p (?<Password>\\S+)")){
             if (User.loggedInUser != null)
                 inputOutput.printer(CheckResult.ALREADY_LOGGED_IN);
             else {
-                Matcher matcher = getCommandMatcher(Command, "user login -u (\\S+) -p (\\S+)");
-                loginMenu.userLogin(matcher.group("Username"), matcher.group("password"));
+                Matcher matcher = getCommandMatcher(Command, "user login -u (?<Username>\\S+) -p (?<Password>\\S+)");
+                loginMenu.userLogin(matcher.group("Username"), matcher.group("Password"));
             }
-        }else if(Command.matches("Forgot my password -u (\\S+)")){
+        }else if(Command.matches("Forgot my password -u (?<Username>\\S+)")){
             if (User.loggedInUser != null)
                 inputOutput.printer(CheckResult.ALREADY_LOGGED_IN);
             else {
-                Matcher matcher = getCommandMatcher(Command, "Forgot my password -u (\\S+)");
+                Matcher matcher = getCommandMatcher(Command, "Forgot my password -u (?<Username>\\S+)");
                 loginMenu.forgetPassword(matcher.group("Username"));
             }
         }else if(Command.matches("log out")){
@@ -111,31 +108,7 @@ public class ProgramController  {
 
 
     }
-    public void securityQuestion(){
-        inputOutput.printer(CheckResult.SECURITY_QUESTION);
-        String nextCommand=Main.scanner.nextLine();
-        if (!nextCommand.matches("question pick -q (?<QuestionNumber>\\d) -a (?<Answer>\\S+) -c (?<AnswerConfirm>\\S+)")){
-            securityQuestion();
-        }
-        Matcher matcher=getCommandMatcher(nextCommand,"question pick -q (?<QuestionNumber>\\d) -a (?<Answer>\\S+) -c (?<AnswerConfirm>\\S+)");
-        if (matcher.group("QuestionNumber").isEmpty() || matcher.group("Answer").isEmpty()||matcher.group("AnswerConfirm").isEmpty()){
-            inputOutput.printer(CheckResult.EMPTY_FIELD);
-            securityQuestion();
-        }
-        if(matcher.group("Answer").equals(matcher.group("AnswerConfirm"))){
-            inputOutput.printer(CheckResult.INVALID_RESPONSE);
-            securityQuestion();
-        }
-        try {
-            int a=Integer.parseInt(matcher.group("QuestionNumber"));
-        }catch (NumberFormatException E){
-            inputOutput.printer(CheckResult.INVALID_RESPONSE);
-            securityQuestion();
-        }
-        User.loggedInUser.setPasswordRecoveryQuestionNumber(Integer.parseInt(matcher.group("QuestionNumber")));
-        User.loggedInUser.setPassWordRecoveryAnswer(matcher.group("Answer"));
 
-    }
     public static String generateRandomPassword() {
         final String UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         final String LOWERCASE = "abcdefghijklmnopqrstuvwxyz";
@@ -168,16 +141,7 @@ public class ProgramController  {
             passwordConformation(password);
         }
     }
-    public void captcha(){
-        String captcha = AsciiArtCaptcha.generateCaptcha();
-        String input=Main.scanner.nextLine();
-        if(!input.equals(captcha)){
-            inputOutput.printer(CheckResult.INVALID_RESPONSE);
-            captcha();
-        }
-        inputOutput.printer(CheckResult.SUCCESSFUL);
 
-    }
 
 
 }
