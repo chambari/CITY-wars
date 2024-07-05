@@ -27,6 +27,7 @@ public class InputOutputProcessor {
             System.out.println("-Start Game ");
             System.out.println("-Show game history");
             System.out.println("-login admin pass  1-Card edit         2-add card     3-Card delete   4-Show players ");
+            System.out.println("-Close the program: Exit");
             return true;
         }
         if(a == CheckResult.EMPTY_FIELD) {

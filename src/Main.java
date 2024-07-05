@@ -7,7 +7,7 @@ public class Main {
     public static InputOutputProcessor inputOutput = InputOutputProcessor.getInstance();
     public static void main(String[] args) throws FileNotFoundException {
        Server.readDataFromServer();
-
+       Server.readCardsFromServer();
 
 //        File file = new File("graph.txt");
 //        Scanner raeder = new Scanner(file);
@@ -27,7 +27,7 @@ public class Main {
         inputOutput.printer(CheckResult.ALL_COMMANDS);
         programController.Run();
         Server.writeDataToServer();
-
+        Server.writeCardsToServer();
     }
 
 }
