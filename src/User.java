@@ -3,8 +3,8 @@ import java.util.ArrayList;
 public class User {
     public static User loggedInUser=null;
     private String Username, Password, Nickname, Email, PassWordRecoveryAnswer;
-    private int PasswordRecoveryQuestionNumber;
-    private long Level=1, HP=100, XP = 0, Coins=0;
+    private int PasswordRecoveryQuestionNumber,Level=1;
+    private long  HP=100, XP = 0, Coins=0;
     ArrayList<Card> cards = new ArrayList<>();
     public static ArrayList<User> users = new ArrayList<>();
     User(String Username, String Password, String Nickname, String Email, int QuestionNumber, String Answer){
@@ -116,5 +116,13 @@ public class User {
 
     public void setPasswordRecoveryQuestionNumber(int passwordRecoveryQuestionNumber) {
         PasswordRecoveryQuestionNumber = passwordRecoveryQuestionNumber;
+    }
+
+    public int getLevel() {
+        return Level;
+    }
+
+    public void setLevel(int level) {
+        Level = level;
     }
 }

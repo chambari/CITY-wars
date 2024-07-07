@@ -26,7 +26,7 @@ public class InputOutputProcessor {
             System.out.println("-Show cards");
             System.out.println("-Start Game ");
             System.out.println("-Show game history");
-            System.out.println("-login admin pass  1-Card edit         2-add card     3-Card delete   4-Show players ");
+            System.out.println("-login admin : login admin <pass> ");
             System.out.println("-Close the program: Exit");
             return true;
         }
@@ -109,13 +109,15 @@ public class InputOutputProcessor {
         }
         if(a == CheckResult.NEW_CARD_INFO) {
 
-            System.out.println("New Card Information:(name -n <Name> card defence/attack -a <Attack> duration -d <Duration> player damage -p <Damage> update level -l <Level> update cost -c <Cost>");
+            System.out.println("New Card Information:(name -n <Name> card defence/attack -a <Attack> duration -d <Duration> player damage -p <Damage> update level -l <Level> update cost -c <Cost> price -p <Price> Character -t <Character>");
             System.out.println("Name:");
             System.out.println("Attack(between 10 and 100):");
             System.out.println("Duration(between 1 and 5):");
             System.out.println("Player Damage(between 10 and 50):");
             System.out.println("Upgrade Level:");
             System.out.println("Upgrade Cost:");
+            System.out.println("Price:");
+            System.out.println("Character:");
             return true;
         }
         if(a == CheckResult.CARD_EXISTS) {
@@ -123,6 +125,45 @@ public class InputOutputProcessor {
             System.out.println("Card already Exists!");
             return true;
         }
+        if(a == CheckResult.INCORRECT_ADMIN_PASSWORD){
+            System.out.println("Admin`s password is incorrect!");
+            return true;
+        }
+        if(a == CheckResult.ADMIN_COMMANDS){
+
+            System.out.println("-Chose a number:  1-Add Card         2-Edit Card     3-Remove card   4-Show players ");
+            return true;
+        }
+        if(a == CheckResult.ADMIN_LOGOUT){
+            System.out.println("Admin logged out!");
+            return true;
+        }
+        if(a == CheckResult.ENTER_NUMBER){
+            System.out.println("Please enter a number: ");
+            return true;
+        }
+        if(a == CheckResult.BACK_TO_PREVIOUS_MENU){
+            System.out.println("Enter 'back' if you want to return to the previous menu.");
+            return true;
+        }
+        if(a == CheckResult.ENTER_NEW_VALUE){
+            System.out.println("Enter your new value: ");
+            return true;
+        }
+        if(a == CheckResult.ARE_YOU_SURE_EDIT){
+            System.out.print("Are you sure you want to edit this card?(y/n): ");
+            return true;
+        }
+        if(a == CheckResult.ARE_YOU_SURE_REMOVE){
+            System.out.print("Are you sure you want to remove this card?(y/n): ");
+            return true;
+        }
+        if(a == CheckResult.CARD_NAME_EXISTS) {
+
+            System.out.println("Card name already Exists!");
+            return true;
+        }
+
         //BAKHSH MARBOOOT BE STORE!!!!
 
 
@@ -153,6 +194,31 @@ public class InputOutputProcessor {
             System.out.println("Nickname: " + info[1]);
             System.out.println("Password: " +info[2]);
             System.out.println("Email: " + info[3]);
+            return true;
+        }
+        if (a == CheckResult.PRINT_ALL_CARDS) {
+
+
+            System.out.println(massage);
+            return true;
+        }
+        if (a == CheckResult.CARD_PROPERTY){
+
+            String[] info=massage.split(",");
+            System.out.println("1- Name: " +info[0]);
+            System.out.println("2- Card Attack/Defence point: " + info[1]);
+            System.out.println("3- Upgrade Cost: " + info[2]);
+            System.out.println("4- Card Duration: " + info[3]);
+            System.out.println("5- Upgrade Level: " + info[4]);
+            System.out.println("6- Player Damage " + info[5]);
+            System.out.println("7- Price: " +info[6]);
+            System.out.println("8- Character: " +info[7]);
+            return true;
+        }
+        if (a == CheckResult.SHOW_ALL_PLAYERS) {
+
+            String[] info=massage.split(",");
+            System.out.println("Username: "+info[0]+" , Level: "+info[1]+" , Amount of Coins: "+info[2]);
             return true;
         }
         //BAKHSH MARBOOOT BE STORE!!!!

@@ -7,9 +7,10 @@ public class ProgramController  {
     SignUpMenu signUp=new SignUpMenu();
     LoginMenu loginMenu=new LoginMenu();
     ProfileMenu profileMenu=new ProfileMenu();
+    Admin admin=new Admin();
     public static InputOutputProcessor inputOutput = InputOutputProcessor.getInstance();
     public boolean running=true;
-    public  void Run() {
+    public void Run() {
 //        boolean running=true;
         while (running) {
             String Command = Main.scanner.nextLine();
@@ -108,6 +109,35 @@ public class ProgramController  {
             }
         }else if(Command.matches("Exit")){
             running=false;
+        }else if(Command.matches("login admin (?<Pass>\\S+)")){
+            Matcher matcher = getCommandMatcher(Command,"login admin (?<Pass>\\S+)");
+            if(!Admin.password.equals(matcher.group("Pass")) ){
+                inputOutput.printer(CheckResult.INCORRECT_ADMIN_PASSWORD);
+                return;
+            }
+            Admin.loggedInAdmin=true;
+            inputOutput.printer(CheckResult.ADMIN_COMMANDS);
+            String input=Main.scanner.nextLine();
+            switch (input) {
+                case "1":
+                    admin.addCard();
+                    break;
+                case "2":
+                    admin.editCard();
+                    break;
+                case "3":
+                    admin.removeCard();
+                    break;
+                case "4":
+                    admin.showAllPlayer();
+                    break;
+                default:
+                    inputOutput.printer(CheckResult.INVALID_RESPONSE);
+                    break;
+            }
+            inputOutput.printer(CheckResult.ADMIN_LOGOUT);
+            Admin.loggedInAdmin=false;
+
         }
 
 

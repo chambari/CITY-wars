@@ -54,5 +54,7 @@ profile change password -o 12345678fG -n 12345678fG
 Show information
 log out
 Forgot my password -u Armin
-
+login admin admin
+name -n dragon card defence/attack -a 50 duration -d 4 player damage -p 20 update level -l 3 update cost -c 12 price -p 100 Character -t shooter
+Admin,dragon,3,4,20,12,50
  */

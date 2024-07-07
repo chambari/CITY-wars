@@ -88,7 +88,7 @@ public class Server {
                     String playerdamage = Parts[5];
                     String upgradecost = Parts[6];
 
-                    Card card=new Card(Specialcard,namecard,Integer.parseInt(level),Integer.parseInt(doration),Integer.parseInt(playerdamage),Integer.parseInt(upgradecost),Integer.parseInt(cardattack));
+//                    Card card=new Card(Specialcard,namecard,Integer.parseInt(level),Integer.parseInt(doration),Integer.parseInt(playerdamage),Integer.parseInt(upgradecost),Integer.parseInt(cardattack));
 
                 }
             }
