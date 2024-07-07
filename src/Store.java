@@ -8,8 +8,6 @@ public class Store {
     }
 
 
-
-
     public void showPlayerCard(){
         for( Card card: User.loggedInUser.cards){
             String info= card.getName()+","+card.getCardAttack()+","+card.getUpgradeCost()+","+card.getDoration()+","+card.getLevel()+","+card.getPlayerDamage();
@@ -19,7 +17,7 @@ public class Store {
 
 
 
-    //
+    //eslah shavad!!!
     public ArrayList<Card> showCardThatUserDosentHave(User user, ArrayList<Card> specialcard){
         ArrayList<Card> cardthatuserdosenthave = new ArrayList<Card>();
         boolean x;
