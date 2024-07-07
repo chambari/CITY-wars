@@ -16,6 +16,7 @@ public class ProgramController  {
             CheckCommands(Command);
         }
     }
+
     public  Matcher getCommandMatcher(String input, String regex) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);

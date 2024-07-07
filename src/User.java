@@ -5,7 +5,7 @@ public class User {
     private String Username, Password, Nickname, Email, PassWordRecoveryAnswer;
     private int PasswordRecoveryQuestionNumber;
     private long Level=1, HP=100, XP = 0, Coins=0;
-//    ArrayList<Card> cards = new ArrayList<>();
+    ArrayList<Card> cards = new ArrayList<>();
     public static ArrayList<User> users = new ArrayList<>();
     User(String Username, String Password, String Nickname, String Email, int QuestionNumber, String Answer){
         this.Username = Username;

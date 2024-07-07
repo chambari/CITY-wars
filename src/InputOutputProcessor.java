@@ -107,6 +107,23 @@ public class InputOutputProcessor {
             System.out.println("Invalid Command!");
             return true;
         }
+        if(a == CheckResult.NEW_CARD_INFO) {
+
+            System.out.println("New Card Information:(name -n <Name> card defence/attack -a <Attack> duration -d <Duration> player damage -p <Damage> update level -l <Level> update cost -c <Cost>");
+            System.out.println("Name:");
+            System.out.println("Attack(between 10 and 100):");
+            System.out.println("Duration(between 1 and 5):");
+            System.out.println("Player Damage(between 10 and 50):");
+            System.out.println("Upgrade Level:");
+            System.out.println("Upgrade Cost:");
+            return true;
+        }
+        if(a == CheckResult.CARD_EXISTS) {
+
+            System.out.println("Card already Exists!");
+            return true;
+        }
+        //BAKHSH MARBOOOT BE STORE!!!!
 
 
         return false;
@@ -138,7 +155,18 @@ public class InputOutputProcessor {
             System.out.println("Email: " + info[3]);
             return true;
         }
+        //BAKHSH MARBOOOT BE STORE!!!!
+        if (a == CheckResult.SHOW_PLAYER_COIN) {
 
+            System.out.println("Amount of coins are: "+massage);
+            return true;
+        }
+        if (a == CheckResult.SHOW_PLAYER_CARD) {
+
+            String[] info=massage.split(",");
+            System.out.println("Card Name: "+info[0]+" , Card Attack/Defence point: "+info[1]+"Card Upgrade Cost: "+info[2]+" , Card Duration: "+info[3]+", Card Level: "+info[4]+", and card player damage: "+info[5]);
+            return true;
+        }
 
         return false;
     }

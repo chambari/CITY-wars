@@ -10,15 +10,14 @@ public class Card {
     private int Doration;
     private String name;
     private int Level;
-    private int CardDefence;
     private int CardAttack;
     private String SpecialCard;
     private int PlayerDamage;
-    private int UpgradeCost;
+    private double UpgradeCost;
 
 
     //baraye admin
-    public Card(String name,int Level , int Doration , int playerDamage ,int UpgradeCost, int cardAttack  ){
+    public Card(String name,int Level , int Doration , int playerDamage ,double UpgradeCost, int cardAttack  ){
         this.CardAttack=cardAttack;
         this.Doration=Doration;
         this.name=name;
@@ -26,11 +25,11 @@ public class Card {
         this.PlayerDamage=playerDamage;
         this.UpgradeCost=UpgradeCost;
         SpecialCard="Admin";
-
+        addCard(this);
 
     }
     //baraykhodbarname
-    public Card(String SpecialCard,String name,int Level , int Doration , int playerDamage ,int UpgradeCost, int cardAttack  ){
+    public Card(String SpecialCard,String name,int Level , int Doration , int playerDamage ,double UpgradeCost, int cardAttack  ){
         this.CardAttack=cardAttack;
         this.Doration=Doration;
         this.name=name;
@@ -50,9 +49,14 @@ public class Card {
         return (SpecialCard + "," + name+"," + Level +"," + Doration+"," +PlayerDamage+"," +UpgradeCost+","+ CardAttack);
     }
 
-
-
-
+    public static Card returnCardByName(String name){
+        for(Card card : cards){
+            if(card.getName().equals(name)){
+                return card;
+            }
+        }
+        return null;
+    }
 
     // Getter and Setter for Doration
     public int getDoration() {
@@ -82,13 +86,7 @@ public class Card {
     }
 
     // Getter and Setter for CardDefence
-    public int getCardDefence() {
-        return CardDefence;
-    }
 
-    public void setCardDefence(int CardDefence) {
-        this.CardDefence = CardDefence;
-    }
 
     // Getter and Setter for CardAttack
     public int getCardAttack() {
@@ -119,11 +117,11 @@ public class Card {
     }
 
     // Getter and Setter for UpgradeCost
-    public int getUpgradeCost() {
+    public double getUpgradeCost() {
         return UpgradeCost;
     }
 
-    public void setUpgradeCost(int UpgradeCost) {
+    public void setUpgradeCost(double UpgradeCost) {
         this.UpgradeCost = UpgradeCost;
     }
 }
