@@ -1,3 +1,4 @@
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,6 +60,18 @@ public class Menu {
         }
 
     }
+
+        public static void mathEquation(){
+        String answer=MathEquation.generateEquation();
+            if (!Main.scanner.nextLine().equals(answer) ){
+                inputOutput.printer(CheckResult.INVALID_RESPONSE);
+                mathEquation();
+            }
+            else {
+                inputOutput.printer(CheckResult.SUCCESSFUL);
+            }
+    }
+
     public void securityQuestion(){
         inputOutput.printer(CheckResult.SECURITY_QUESTION);
         String nextCommand=Main.scanner.nextLine();

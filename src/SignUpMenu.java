@@ -26,6 +26,7 @@ public class SignUpMenu extends Menu{
         User user = new User(username, password, email, nickname);
         securityQuestion();
         captcha();
+        mathEquation();
         return true;
     }
 
